@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Add</title>
+</head>
+<body>
+<a href="http://localhost:8083/index.html" style="border: 1px solid #000; background-color: #c0c0c0; padding:5px;">Home</a>
+<br><br>
+<h1>Add Users</h1>
+<form>
+    <input type="text" id="userName" name="userName" placeholder="username" style="font-size:20px">
+    <input type="text" id="passWord" name="passWord" placeholder="password" style="font-size:20px">
+    Admin: <input type="checkbox" id="checkAdmin" value="Admin">
+    RegularUser: <input type="checkbox" id="checkUser" value="RegUser">
+    <input type="button" onclick="addUser()" value="Add" style="font-size:20px">
+</form>
+
+<script>
+    const addUser = () => {
+        let userName = document.querySelector("#userName").value;
+        let passWord = document.querySelector("#passWord").value;
+        let adminChecked = document.getElementById("checkAdmin");
+        let regularUserChecked = document.getElementById("checkUser");
+        let rolesList = [];
+        if(adminChecked.checked || regularUserChecked){
+            if (adminChecked.checked){
+                rolesList.push("ADMIN")
+            }
+            if (regularUserChecked.checked){
+                rolesList.push("USER")
+            }
+        }else{
+            rolesList.push("NOROLE")
+        }
+
+        console.log(userName, passWord, rolesList);
+        let newUser = JSON.stringify({userName,passWord,rolesList}); //i did the cool json thing
+        const request = new XMLHttpRequest();
+        request.open("POST", "http://localhost:8082/admin/Api/userAdd");
+        request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+        request.send(newUser);
+        request.onload = () =>{
+            alert(request.responseText);
+        }
+    }
+</script>
+
+</body>
+</html>

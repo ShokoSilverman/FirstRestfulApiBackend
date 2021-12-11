@@ -1,0 +1,4 @@
+student - id, firstName, lastName, favorite_class
+teacher - id, firstName, lastName, classTaught
+faculty - id, firstName, lastName, jobTitle
+degree - id, name, chair

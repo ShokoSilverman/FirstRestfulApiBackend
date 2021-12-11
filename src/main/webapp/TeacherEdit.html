@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Teacher Editor</title>
+</head>
+<body>
+<a href="http://localhost:8083/index.html" style="border: 1px solid #000; background-color: #c0c0c0; padding:5px;">Home</a>
+</br></br>
+<form>
+<input type="text" id="id" name="id" placeholder="ID" style="font-size:20px">
+<input type="text" id="firstName" name="firstName" placeholder="First Name" style="font-size:20px">
+<input type="text" id="lastName" name="lastName" placeholder="last Name" style="font-size:20px">
+<input type="text" id="classTought" name="classTought" placeholder="Class Tought" style="font-size:20px">
+<input  type="button" onclick="addTeacher()" value="Add Teacher" style="font-size:20px">
+<input  type="button" onclick="updateTeacher()" value="Update Teacher" style="font-size:20px">
+</form>
+</br></br>
+<form>
+<input type="text" id="delId" name="id" placeholder="ID" style="font-size:20px">
+<input  type="button" onclick="deleteTeacher()" value="Delete Teacher" style="font-size:20px">
+</form>
+
+<script type="text/javascript">
+	function addTeacher(){
+		var id = document.querySelector("#id").value;
+		var firstName = document.querySelector("#firstName").value;
+		var lastName = document.querySelector("#lastName").value;
+		var classTought = document.querySelector("#classTought").value;
+	    //alert("Create Student: " + id + " " + firstName + " " + lastName + " " + favoriteCourse);
+	    var teacher = JSON.stringify({"id": id,"firstName": firstName,"lastName": lastName,"classTaught": classTought});
+	    alert(teacher);
+	    const request = new XMLHttpRequest();
+	    request.open("POST", "http://localhost:8082/user/Api/teacherAdd");
+	    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send(teacher);
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+	
+	function updateTeacher(){
+		var id = document.querySelector("#id").value;
+		var firstName = document.querySelector("#firstName").value;
+		var lastName = document.querySelector("#lastName").value;
+		var classTought = document.querySelector("#classTought").value;
+	    //alert("Create Student: " + id + " " + firstName + " " + lastName + " " + favoriteCourse);
+	    var teacher = JSON.stringify({"id": id,"firstName": firstName,"lastName": lastName,"classTaught": classTought});
+	    alert(teacher);
+	    const request = new XMLHttpRequest();
+	    request.open("PATCH", "http://localhost:8082/user/Api/teacherUpd");
+	    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send(teacher);
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+	
+	function deleteTeacher(){
+		var delId = document.querySelector("#delId").value;
+		//alert("delete Student: " + delId);
+		const request = new XMLHttpRequest();
+	    request.open("DELETE", "http://localhost:8082/user/Api/teacher/" + delId);
+	    //request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send();
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+</script>
+</body>
+</html>

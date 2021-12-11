@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>degree Editor</title>
+</head>
+<body>
+<a href="http://localhost:8083/index.html" style="border: 1px solid #000; background-color: #c0c0c0; padding:5px;">Home</a>
+</br></br>
+<form>
+<input type="text" id="id" name="id" placeholder="ID" style="font-size:20px">
+<input type="text" id="name" name="name" placeholder="Degree Name" style="font-size:20px">
+<input type="text" id="chair" name="chair" placeholder="Degree Chair" style="font-size:20px">
+<input  type="button" onclick="addDegree()" value="Add degree" style="font-size:20px">
+<input  type="button" onclick="updateDegree()" value="Update degree" style="font-size:20px">
+</form>
+</br></br>
+<form>
+<input type="text" id="delId" name="id" placeholder="ID" style="font-size:20px">
+<input  type="button" onclick="deleteDegree()" value="Delete degree" style="font-size:20px">
+</form>
+
+<script type="text/javascript">
+	function addDegree(){
+		var id = document.querySelector("#id").value;
+		var name = document.querySelector("#name").value;
+		var chair = document.querySelector("#chair").value;
+	    //alert("Create degree: " + id + " " + name + " " + name + " " + favoriteCourse);
+	    var degree = JSON.stringify({"id": id,"name": name,"chair": chair});
+	    //alert(degree);
+	    const request = new XMLHttpRequest();
+	    request.open("POST", "http://localhost:8082/user/Api/degreeAdd");
+	    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send(degree);
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+	
+	function updateDegree(){
+		var id = document.querySelector("#id").value;
+		var name = document.querySelector("#name").value;
+		var chair = document.querySelector("#chair").value;
+	    //alert("Update degree: " + id + " " + name + " " + name + "jobTitle");
+	    var degree = JSON.stringify({"id": id,"name": name,"chair": chair});
+	    //alert(degree);
+	    const request = new XMLHttpRequest();
+	    request.open("PATCH", "http://localhost:8082/user/Api/degreeUpd");
+	    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send(degree);
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+	
+	function deleteDegree(){
+		var delId = document.querySelector("#delId").value;
+		alert("delete degree: " + delId);
+		const request = new XMLHttpRequest();
+	    request.open("DELETE", "http://localhost:8082/user/Api/degree/" + delId);
+	    //request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send();
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+</script>
+</body>
+</html>

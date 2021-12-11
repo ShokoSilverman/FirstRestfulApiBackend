@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Student Editor</title>
+</head>
+<body>
+<a href="http://localhost:8083/index.html" style="border: 1px solid #000; background-color: #c0c0c0; padding:5px;">Home</a>
+</br></br>
+<form>
+<input type="text" id="id" name="id" placeholder="ID" style="font-size:20px">
+<input type="text" id="firstName" name="firstName" placeholder="First Name" style="font-size:20px">
+<input type="text" id="lastName" name="lastName" placeholder="last Name" style="font-size:20px">
+<input type="text" id="favoriteCourse" name="favoriteCourse" placeholder="Favorite Course" style="font-size:20px">
+<input  type="button" onclick="addStudent()" value="Add Student" style="font-size:20px">
+<input  type="button" onclick="updateStudent()" value="Update Student" style="font-size:20px">
+</form>
+</br></br>
+<form>
+<input type="text" id="delId" name="id" placeholder="ID" style="font-size:20px">
+<input  type="button" onclick="deleteStudent()" value="Delete Student" style="font-size:20px">
+</form>
+
+<script type="text/javascript">
+	function addStudent(){
+		var id = document.querySelector("#id").value; //grabs the user entered values
+		var firstName = document.querySelector("#firstName").value; 
+		var lastName = document.querySelector("#lastName").value;
+		var favoriteCourse = document.querySelector("#favoriteCourse").value;
+	    alert("Create Student: " + id + " " + firstName + " " + lastName + " " + favoriteCourse);
+	    var student = JSON.stringify({"id": id,"firstName": firstName,"lastName": lastName,"favoriteClass": favoriteCourse});
+	    //alert(student);
+	    const request = new XMLHttpRequest();
+	    request.open("POST", "http://localhost:8082/user/Api/studentAdd");
+	    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send(student);
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+	
+	function updateStudent(){ //sets over the user entered values
+		var id = document.querySelector("#id").value;
+		var firstName = document.querySelector("#firstName").value;
+		var lastName = document.querySelector("#lastName").value;
+		var favoriteCourse = document.querySelector("#favoriteCourse").value;
+	    alert("Update Student: " + id + " " + firstName + " " + lastName + "favoriteCourse");
+	    var student = JSON.stringify({"id": id,"firstName": firstName,"lastName": lastName,"favoriteClass": favoriteCourse});
+	    //alert(student);
+	    const request = new XMLHttpRequest();
+	    request.open("PATCH", "http://localhost:8082/user/Api/studentUpd");
+	    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send(student);
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+	
+	function deleteStudent(){ //deletes the user entered ID and object
+		var delId = document.querySelector("#delId").value;
+		alert("delete Student: " + delId);
+		const request = new XMLHttpRequest();
+	    request.open("DELETE", "http://localhost:8082/user/Api/student/" + delId);
+	    //request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+	    request.send();
+	    request.onload = () =>{
+	    	alert(request.responseText)
+	    	//document.querySelector("#myResponse").innerHTML = request.responseText;
+	    	//document.querySelector("#myResponse").innerHTML = 'test';
+	    }
+	}
+</script>
+</body>
+</html>
